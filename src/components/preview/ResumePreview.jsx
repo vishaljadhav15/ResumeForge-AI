@@ -12,21 +12,39 @@ function ResumePreview() {
         <div className="h-full p-10">
           {/* Header */}
 
-          <div className="border-b border-slate-200 pb-6 text-center">
-            <h1 className="text-4xl font-bold tracking-wide text-slate-900">
-              {resumeData.fullName || "JOHN DOE"}{" "}
+          <div className="border-b border-slate-200 pb-8 text-center">
+            <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">
+              {resumeData.fullName || "JOHN DOE"}
             </h1>
 
-            <p className="mt-2 tracking-[6px] text-sm font-semibold uppercase text-blue-600">
-              {resumeData.professionalTitle || "Frontend Developer"}{" "}
+            <p className="mt-2 text-base font-semibold uppercase tracking-[5px] text-blue-600">
+              {resumeData.professionalTitle || "Frontend Developer"}
             </p>
 
-            <div className="mt-5 flex flex-wrap justify-center gap-4 text-xs text-slate-600">
-              <span>{resumeData.email || "john@example.com"}</span>
+            <div className="mt-6 space-y-2 text-sm text-slate-600">
+              <div className="flex flex-wrap justify-center gap-4">
+                {resumeData.email && <span>{resumeData.email}</span>}
 
-              <span>{resumeData.phone || "+91 9876543210"}</span>
+                {resumeData.phone && <span>{resumeData.phone}</span>}
+              </div>
 
-              <span>{resumeData.linkedin || "linkedin.com/in/johndoe"}</span>
+              <div className="flex flex-wrap justify-center gap-4">
+                {resumeData.linkedin && <span>{resumeData.linkedin}</span>}
+
+                {resumeData.portfolio && <span>{resumeData.portfolio}</span>}
+              </div>
+
+              <div>
+                {(resumeData.city || resumeData.country) && (
+                  <span>
+                    {resumeData.city}
+
+                    {resumeData.city && resumeData.country ? ", " : ""}
+
+                    {resumeData.country}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 

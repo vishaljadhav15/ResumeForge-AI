@@ -8,7 +8,8 @@ import {
   FileText,
   CircleGauge,
 } from "lucide-react";
-
+import { useResume } from "../../context/ResumeContext";
+import { calculateATSScore } from "../../utils/calculateATSScore";
 const menuItems = [
   {
     name: "Personal Information",
@@ -42,9 +43,11 @@ const menuItems = [
 ];
 
 function Sidebar() {
+  const { resumeData } = useResume();
+
+const atsScore = calculateATSScore(resumeData);
   return (
     <aside className="w-[280px] bg-slate-900 text-white flex flex-col justify-between p-5">
-
       <div>
         <p className="mb-5 text-xs font-semibold uppercase tracking-widest text-slate-400">
           Resume Sections
@@ -66,9 +69,7 @@ function Sidebar() {
               >
                 <Icon size={20} />
 
-                <span className="font-medium">
-                  {item.name}
-                </span>
+                <span className="font-medium">{item.name}</span>
               </button>
             );
           })}
@@ -78,30 +79,22 @@ function Sidebar() {
       {/* ATS Card */}
 
       <div className="mt-8 rounded-2xl border border-slate-700 bg-slate-800 p-5">
-
         <div className="flex items-center gap-2">
-          <CircleGauge
-            size={20}
-            className="text-yellow-400"
-          />
+          <CircleGauge size={20} className="text-yellow-400" />
 
-          <h3 className="font-semibold">
-            ATS Score
-          </h3>
+          <h3 className="font-semibold">ATS Score</h3>
         </div>
 
         <div className="mt-5 flex items-center justify-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-full border-8 border-yellow-400 text-2xl font-bold">
-            0%
+            {Math.round(atsScore)}%
           </div>
         </div>
 
         <p className="mt-5 text-center text-sm text-slate-300">
           Complete more sections to improve your ATS score.
         </p>
-
       </div>
-
     </aside>
   );
 }
