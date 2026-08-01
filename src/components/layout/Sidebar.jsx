@@ -8,46 +8,61 @@ import {
   FileText,
   CircleGauge,
 } from "lucide-react";
+
 import { useResume } from "../../context/ResumeContext";
 import { calculateATSScore } from "../../utils/calculateATSScore";
-const menuItems = [
-  {
-    name: "Personal Information",
-    icon: User,
-    active: true,
-  },
-  {
-    name: "Education",
-    icon: GraduationCap,
-  },
-  {
-    name: "Experience",
-    icon: Briefcase,
-  },
-  {
-    name: "Projects",
-    icon: FolderKanban,
-  },
-  {
-    name: "Skills",
-    icon: Star,
-  },
-  {
-    name: "Certifications",
-    icon: Award,
-  },
-  {
-    name: "Summary",
-    icon: FileText,
-  },
-];
 
 function Sidebar() {
-  const { resumeData } = useResume();
+  const {
+    resumeData,
+    currentSection,
+    setCurrentSection,
+  } = useResume();
 
-const atsScore = calculateATSScore(resumeData);
+  const atsScore = Math.round(
+    calculateATSScore(resumeData)
+  );
+
+  const menuItems = [
+    {
+      id: "personal",
+      name: "Personal Information",
+      icon: User,
+    },
+    {
+      id: "education",
+      name: "Education",
+      icon: GraduationCap,
+    },
+    {
+      id: "experience",
+      name: "Experience",
+      icon: Briefcase,
+    },
+    {
+      id: "projects",
+      name: "Projects",
+      icon: FolderKanban,
+    },
+    {
+      id: "skills",
+      name: "Skills",
+      icon: Star,
+    },
+    {
+      id: "certificates",
+      name: "Certifications",
+      icon: Award,
+    },
+    {
+      id: "summary",
+      name: "Summary",
+      icon: FileText,
+    },
+  ];
+
   return (
-    <aside className="w-[280px] bg-slate-900 text-white flex flex-col justify-between p-5">
+    <aside className="flex w-[280px] flex-col justify-between bg-slate-900 p-5 text-white">
       <div>
         <p className="mb-5 text-xs font-semibold uppercase tracking-widest text-slate-400">
           Resume Sections
@@ -59,35 +74,42 @@ const atsScore = calculateATSScore(resumeData);
 
             return (
               <button
-                key={item.name}
-                className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-all duration-200
-                ${
-                  item.active
+                key={item.id}
+                onClick={() =>
+                  setCurrentSection(item.id)
+                }
+                className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-all duration-200 ${
+                  currentSection === item.id
                     ? "bg-blue-600 text-white shadow-lg"
                     : "text-slate-300 hover:bg-slate-800 hover:text-white"
                 }`}
               >
                 <Icon size={20} />
 
-                <span className="font-medium">{item.name}</span>
+                <span className="font-medium">
+                  {item.name}
+                </span>
               </button>
             );
           })}
         </nav>
       </div>
 
-      {/* ATS Card */}
-
       <div className="mt-8 rounded-2xl border border-slate-700 bg-slate-800 p-5">
         <div className="flex items-center gap-2">
-          <CircleGauge size={20} className="text-yellow-400" />
+          <CircleGauge
+            size={20}
+            className="text-yellow-400"
+          />
 
-          <h3 className="font-semibold">ATS Score</h3>
+          <h3 className="font-semibold">
+            ATS Score
+          </h3>
         </div>
 
-        <div className="mt-5 flex items-center justify-center">
+        <div className="mt-5 flex justify-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-full border-8 border-yellow-400 text-2xl font-bold">
-            {Math.round(atsScore)}%
+            {atsScore}%
           </div>
         </div>
 

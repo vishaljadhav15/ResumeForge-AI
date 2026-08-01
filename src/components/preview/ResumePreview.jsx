@@ -1,14 +1,16 @@
 import { useResume } from "../../context/ResumeContext";
+import { Mail, Phone, Globe, MapPin, Link } from "lucide-react";
 
 function ResumePreview() {
   const { resumeData } = useResume();
+
   return (
     <section className="w-[460px] bg-slate-100 border-l border-slate-200 p-8 overflow-y-auto">
       <h2 className="mb-6 text-xl font-semibold text-slate-800">
         Live Preview
       </h2>
 
-      <div className="mx-auto w-full max-w-[430px] h-[620px] bg-white rounded-md shadow-2xl">
+      <div className="mx-auto h-[620px] w-full max-w-[430px] rounded-md bg-white shadow-2xl">
         <div className="h-full p-10">
           {/* Header */}
 
@@ -21,30 +23,56 @@ function ResumePreview() {
               {resumeData.professionalTitle || "Frontend Developer"}
             </p>
 
-            <div className="mt-6 space-y-2 text-sm text-slate-600">
-              <div className="flex flex-wrap justify-center gap-4">
-                {resumeData.email && <span>{resumeData.email}</span>}
+            <div className="mt-6 space-y-3 text-sm text-slate-600">
+              {(resumeData.email || resumeData.phone) && (
+                <div className="flex flex-wrap justify-center gap-6">
+                  {resumeData.email && (
+                    <div className="flex items-center gap-2">
+                      <Mail size={14} />
+                      <span>{resumeData.email}</span>
+                    </div>
+                  )}
 
-                {resumeData.phone && <span>{resumeData.phone}</span>}
-              </div>
+                  {resumeData.phone && (
+                    <div className="flex items-center gap-2">
+                      <Phone size={14} />
+                      <span>{resumeData.phone}</span>
+                    </div>
+                  )}
+                </div>
+              )}
 
-              <div className="flex flex-wrap justify-center gap-4">
-                {resumeData.linkedin && <span>{resumeData.linkedin}</span>}
+              {(resumeData.linkedin || resumeData.portfolio) && (
+                <div className="flex flex-wrap justify-center gap-6">
+                  {resumeData.linkedin && (
+                    <div className="flex items-center gap-2">
+                      <Link size={14} />
+                      <span>{resumeData.linkedin}</span>
+                    </div>
+                  )}
 
-                {resumeData.portfolio && <span>{resumeData.portfolio}</span>}
-              </div>
+                  {resumeData.portfolio && (
+                    <div className="flex items-center gap-2">
+                      <Globe size={14} />
+                      <span>{resumeData.portfolio}</span>
+                    </div>
+                  )}
+                </div>
+              )}
 
-              <div>
-                {(resumeData.city || resumeData.country) && (
-                  <span>
-                    {resumeData.city}
+              {(resumeData.city || resumeData.country) && (
+                <div className="flex justify-center">
+                  <div className="flex items-center gap-2">
+                    <MapPin size={14} />
 
-                    {resumeData.city && resumeData.country ? ", " : ""}
-
-                    {resumeData.country}
-                  </span>
-                )}
-              </div>
+                    <span>
+                      {resumeData.city}
+                      {resumeData.city && resumeData.country ? ", " : ""}
+                      {resumeData.country}
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -56,8 +84,7 @@ function ResumePreview() {
             </h3>
 
             <p className="text-sm leading-7 text-slate-700">
-              Your resume preview will appear here as you fill the information
-              from the editor panel.
+              Your professional summary will appear here.
             </p>
           </div>
 
@@ -68,7 +95,9 @@ function ResumePreview() {
               Experience
             </h3>
 
-            <p className="text-sm text-slate-500">No experience added yet.</p>
+            <p className="text-sm text-slate-500">
+              No experience added yet.
+            </p>
           </div>
 
           {/* Education */}
@@ -78,7 +107,37 @@ function ResumePreview() {
               Education
             </h3>
 
-            <p className="text-sm text-slate-500">No education added yet.</p>
+            {resumeData.education.length === 0 ? (
+              <p className="text-sm text-slate-500">
+                No education added yet.
+              </p>
+            ) : (
+              <div className="space-y-4">
+                {resumeData.education.map((education) => (
+                  <div key={education.id}>
+                    <h4 className="text-sm font-semibold text-slate-800">
+                      {education.degree || "Degree"}
+                    </h4>
+
+                    <p className="text-xs text-slate-600">
+                      {education.institute || "Institute"}
+                    </p>
+
+                    <p className="text-xs text-slate-500">
+                      {education.startYear}
+                      {education.startYear && education.endYear ? " - " : ""}
+                      {education.endYear}
+                    </p>
+
+                    {education.cgpa && (
+                      <p className="text-xs text-slate-500">
+                        CGPA: {education.cgpa}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Skills */}
@@ -89,7 +148,7 @@ function ResumePreview() {
             </h3>
 
             <p className="text-sm text-slate-500">
-              HTML • CSS • JavaScript • React
+              Skills will appear here.
             </p>
           </div>
         </div>

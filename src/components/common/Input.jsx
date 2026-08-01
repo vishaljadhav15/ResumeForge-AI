@@ -5,6 +5,9 @@ function Input({
   value = "",
   onChange,
   name,
+  min,
+  max,
+  step,
 }) {
   return (
     <div>
@@ -18,6 +21,9 @@ function Input({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        min={min}
+        max={max}
+        step={step}
         className="
           w-full
           rounded-xl
