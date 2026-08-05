@@ -1,9 +1,21 @@
-import { Button, Card, Input, SectionTitle } from "../../common";
+import {
+  Card,
+  Input,
+  SectionTitle,
+  EmptyState,
+  DeleteButton,
+  SectionHeader,
+} from "../../common";
+
 import { useResume } from "../../../context/ResumeContext";
 
 function EducationForm() {
-  const { resumeData, addEducation, updateEducation, deleteEducation } =
-    useResume();
+  const {
+    resumeData,
+    addEducation,
+    updateEducation,
+    deleteEducation,
+  } = useResume();
 
   const handleChange = (id, field, value) => {
     updateEducation(id, field, value);
@@ -18,24 +30,17 @@ function EducationForm() {
 
       <Card>
         <div className="p-6">
-          <div className="mb-6 flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-slate-800">
-              Education Details
-            </h3>
-
-            <Button onClick={addEducation}>+ Add Education</Button>
-          </div>
+          <SectionHeader
+            title="Education Details"
+            buttonText="+ Add Education"
+            onClick={addEducation}
+          />
 
           {resumeData.education.length === 0 ? (
-            <div className="rounded-xl border-2 border-dashed border-slate-300 p-10 text-center">
-              <h4 className="text-lg font-semibold text-slate-700">
-                No Education Added
-              </h4>
-
-              <p className="mt-2 text-slate-500">
-                Click "Add Education" to create your first education entry.
-              </p>
-            </div>
+            <EmptyState
+              title="No Education Added"
+              description="Click 'Add Education' to create your first education entry."
+            />
           ) : (
             <div className="space-y-6">
               {resumeData.education.map((education, index) => (
@@ -46,12 +51,9 @@ function EducationForm() {
                         Education #{index + 1}
                       </h4>
 
-                      <button
+                      <DeleteButton
                         onClick={() => deleteEducation(education.id)}
-                        className="rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600"
-                      >
-                        Delete
-                      </button>
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -60,7 +62,11 @@ function EducationForm() {
                         placeholder="Bachelor of Computer Science"
                         value={education.degree}
                         onChange={(e) =>
-                          handleChange(education.id, "degree", e.target.value)
+                          handleChange(
+                            education.id,
+                            "degree",
+                            e.target.value
+                          )
                         }
                       />
 
@@ -72,7 +78,7 @@ function EducationForm() {
                           handleChange(
                             education.id,
                             "institute",
-                            e.target.value,
+                            e.target.value
                           )
                         }
                       />
@@ -85,7 +91,7 @@ function EducationForm() {
                           handleChange(
                             education.id,
                             "startYear",
-                            e.target.value,
+                            e.target.value
                           )
                         }
                       />
@@ -95,7 +101,11 @@ function EducationForm() {
                         placeholder="2025"
                         value={education.endYear}
                         onChange={(e) =>
-                          handleChange(education.id, "endYear", e.target.value)
+                          handleChange(
+                            education.id,
+                            "endYear",
+                            e.target.value
+                          )
                         }
                       />
 
@@ -111,14 +121,25 @@ function EducationForm() {
                           const value = e.target.value;
 
                           if (value === "") {
-                            handleChange(education.id, "cgpa", "");
+                            handleChange(
+                              education.id,
+                              "cgpa",
+                              ""
+                            );
                             return;
                           }
 
                           const number = Number(value);
 
-                          if (number >= 0 && number <= 10) {
-                            handleChange(education.id, "cgpa", value);
+                          if (
+                            number >= 0 &&
+                            number <= 10
+                          ) {
+                            handleChange(
+                              education.id,
+                              "cgpa",
+                              value
+                            );
                           }
                         }}
                       />

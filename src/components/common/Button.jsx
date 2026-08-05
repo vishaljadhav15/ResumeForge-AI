@@ -3,6 +3,7 @@ function Button({
   variant = "primary",
   type = "button",
   onClick,
+  disabled = false,
 }) {
   const variants = {
     primary:
@@ -22,6 +23,7 @@ function Button({
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       className={`
         px-5
         py-2.5
@@ -30,6 +32,11 @@ function Button({
         transition-all
         duration-200
         ${variants[variant]}
+        ${
+          disabled
+            ? "cursor-not-allowed opacity-50"
+            : ""
+        }
       `}
     >
       {children}

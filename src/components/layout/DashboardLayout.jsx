@@ -8,11 +8,15 @@ function DashboardLayout() {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <div className="flex h-[calc(100vh-64px)]">
+      <main className="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-64px)]">
         <Sidebar />
-        <EditorPanel />
-        <ResumePreview />
-      </div>
+
+        <div className="flex flex-1 flex-col lg:flex-row overflow-hidden">
+          <EditorPanel />
+
+          <ResumePreview />
+        </div>
+      </main>
     </div>
   );
 }
