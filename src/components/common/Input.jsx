@@ -4,6 +4,7 @@ function Input({
   type = "text",
   value = "",
   onChange,
+  onBlur,
   onKeyDown,
   name,
   min,
@@ -12,11 +13,16 @@ function Input({
   disabled = false,
   required = false,
   autoFocus = false,
+  error = "",
 }) {
   return (
     <div>
       <label className="mb-2 block text-sm font-medium text-gray-700">
         {label}
+
+        {required && (
+          <span className="ml-1 text-red-500">*</span>
+        )}
       </label>
 
       <input
@@ -24,6 +30,7 @@ function Input({
         name={name}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
         min={min}
@@ -32,11 +39,14 @@ function Input({
         disabled={disabled}
         required={required}
         autoFocus={autoFocus}
-        className="
+        aria-invalid={!!error}
+        aria-describedby={
+          error ? `${name}-error` : undefined
+        }
+        className={`
           w-full
           rounded-xl
           border
-          border-gray-300
           bg-white
           px-4
           py-3
@@ -44,14 +54,29 @@ function Input({
           placeholder:text-gray-400
           outline-none
           transition
-          focus:border-blue-500
+
+          ${
+            error
+              ? "border-red-500 focus:border-red-500 focus:ring-red-200"
+              : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+          }
+
           focus:ring-2
-          focus:ring-blue-200
+
           disabled:cursor-not-allowed
           disabled:bg-gray-100
           disabled:text-gray-500
-        "
+        `}
       />
+
+      {error && (
+        <p
+          id={`${name}-error`}
+          className="mt-1 text-sm text-red-500"
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 }

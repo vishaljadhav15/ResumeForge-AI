@@ -1,23 +1,18 @@
-import {
-  Download,
-  Moon,
-  Save,
-  CheckCircle2,
-  Menu,
-} from "lucide-react";
+import { Download, Moon, Save, CheckCircle2, Menu } from "lucide-react";
 
 import { useResume } from "../../context/ResumeContext";
 
-function Navbar() {
-  const { setSidebarOpen } = useResume();
+import { calculateResumeProgress } from "../../utils/calculateResumeProgress";
 
+function Navbar() {
+  const { resumeData, setSidebarOpen } = useResume();
+
+  const progress = calculateResumeProgress(resumeData);
   return (
     <header className="border-b border-slate-200 bg-white">
       <div className="flex h-[72px] items-center justify-between px-4 md:px-6 lg:px-8">
-
         {/* Left */}
         <div className="flex items-center gap-3">
-
           {/* Mobile Menu */}
           <button
             onClick={() => setSidebarOpen(true)}
@@ -49,25 +44,24 @@ function Navbar() {
                 Resume Progress
               </span>
 
-              <span className="text-slate-500">
-                40%
-              </span>
+              <span className="text-slate-500">{progress}% </span>
             </div>
 
             <div className="h-2 overflow-hidden rounded-full bg-slate-200">
-              <div className="h-full w-[40%] rounded-full bg-blue-600"></div>
+              <div
+                className="h-full rounded-full bg-blue-600 transition-all duration-500"
+                style={{
+                  width: `${progress}%`,
+                }}
+              ></div>{" "}
             </div>
           </div>
         </div>
 
         {/* Right */}
         <div className="flex items-center gap-2 md:gap-3">
-
           <div className="hidden xl:flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 px-3 py-2">
-            <CheckCircle2
-              size={18}
-              className="text-green-600"
-            />
+            <CheckCircle2 size={18} className="text-green-600" />
 
             <span className="text-sm font-medium text-green-700">
               Draft Saved
@@ -86,13 +80,9 @@ function Navbar() {
           <button className="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 font-medium text-white shadow-lg transition hover:bg-blue-700 md:px-5">
             <Download size={18} />
 
-            <span className="hidden sm:inline">
-              Export PDF
-            </span>
+            <span className="hidden sm:inline">Export PDF</span>
           </button>
-
         </div>
-
       </div>
     </header>
   );
