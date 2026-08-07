@@ -7,7 +7,9 @@ import {
   DeleteButton,
 } from "../../common";
 
+import { useState } from "react";
 import { useResume } from "../../../context/ResumeContext";
+import { validateField } from "../../../utils/validateField";
 
 function CertificatesForm() {
   const {
@@ -17,8 +19,19 @@ function CertificatesForm() {
     deleteCertificate,
   } = useResume();
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (id, field, value) => {
     updateCertificate(id, field, value);
+  };
+
+  const handleBlur = (id, field, value) => {
+    const error = validateField(field, value);
+
+    setErrors((prev) => ({
+      ...prev,
+      [`${id}-${field}`]: error,
+    }));
   };
 
   return (
@@ -30,6 +43,7 @@ function CertificatesForm() {
 
       <Card>
         <div className="p-6">
+
           <SectionHeader
             title="Certificate Details"
             buttonText="+ Add Certificate"
@@ -43,10 +57,14 @@ function CertificatesForm() {
             />
           ) : (
             <div className="space-y-6">
+
               {resumeData.certificates.map((certificate, index) => (
+
                 <Card key={certificate.id}>
                   <div className="p-6">
+
                     <div className="mb-5 flex items-center justify-between">
+
                       <h4 className="text-lg font-semibold">
                         Certificate #{index + 1}
                       </h4>
@@ -56,11 +74,14 @@ function CertificatesForm() {
                           deleteCertificate(certificate.id)
                         }
                       />
+
                     </div>
 
                     <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+
                       <Input
                         label="Certificate Name"
+                        required
                         placeholder="AWS Certified Cloud Practitioner"
                         value={certificate.name}
                         onChange={(e) =>
@@ -70,10 +91,23 @@ function CertificatesForm() {
                             e.target.value
                           )
                         }
+                        onBlur={(e) =>
+                          handleBlur(
+                            certificate.id,
+                            "name",
+                            e.target.value
+                          )
+                        }
+                        error={
+                          errors[
+                            `${certificate.id}-name`
+                          ]
+                        }
                       />
 
                       <Input
                         label="Organization"
+                        required
                         placeholder="Amazon Web Services"
                         value={certificate.organization}
                         onChange={(e) =>
@@ -83,10 +117,22 @@ function CertificatesForm() {
                             e.target.value
                           )
                         }
+                        onBlur={(e) =>
+                          handleBlur(
+                            certificate.id,
+                            "organization",
+                            e.target.value
+                          )
+                        }
+                        error={
+                          errors[
+                            `${certificate.id}-organization`
+                          ]
+                        }
                       />
-
-                      <Input
+                                            <Input
                         label="Issue Date"
+                        required
                         type="month"
                         value={certificate.issueDate}
                         onChange={(e) =>
@@ -95,6 +141,18 @@ function CertificatesForm() {
                             "issueDate",
                             e.target.value
                           )
+                        }
+                        onBlur={(e) =>
+                          handleBlur(
+                            certificate.id,
+                            "issueDate",
+                            e.target.value
+                          )
+                        }
+                        error={
+                          errors[
+                            `${certificate.id}-issueDate`
+                          ]
                         }
                       />
 
@@ -123,14 +181,30 @@ function CertificatesForm() {
                               e.target.value
                             )
                           }
+                          onBlur={(e) =>
+                            handleBlur(
+                              certificate.id,
+                              "credentialUrl",
+                              e.target.value
+                            )
+                          }
+                          error={
+                            errors[
+                              `${certificate.id}-credentialUrl`
+                            ]
+                          }
                         />
                       </div>
+
                     </div>
+
                   </div>
                 </Card>
+
               ))}
             </div>
           )}
+
         </div>
       </Card>
     </>

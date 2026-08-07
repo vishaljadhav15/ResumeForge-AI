@@ -2,9 +2,17 @@ import SectionHeading from "./components/SectionHeading";
 import { resumeTheme } from "../../constants/resumeTheme";
 
 function ProjectsPreview({ projects }) {
-  if (projects.length === 0) {
+  if (!projects.length) {
     return null;
   }
+
+  const formatUrl = (url) => {
+    if (!url) return "";
+
+    return url
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "");
+  };
 
   return (
     <section
@@ -21,19 +29,23 @@ function ProjectsPreview({ projects }) {
             marginBottom: resumeTheme.spacing.itemGap,
           }}
         >
+          {/* Project Title */}
+
           <h4
             className="font-bold"
             style={{
               color: resumeTheme.colors.heading,
-              fontSize: "14px",
+              fontSize: "13px",
             }}
           >
             {item.title}
           </h4>
 
+          {/* Technologies */}
+
           {item.technologies && (
             <p
-              className="mt-1"
+              className="mt-1 font-medium"
               style={{
                 color: resumeTheme.colors.primary,
                 fontSize: resumeTheme.font.small,
@@ -43,36 +55,51 @@ function ProjectsPreview({ projects }) {
             </p>
           )}
 
+          {/* Description */}
+
           {item.description && (
-            <p
-              className="mt-2 leading-6"
+            <ul
+              className="mt-2 list-disc pl-5"
               style={{
                 color: resumeTheme.colors.text,
                 fontSize: resumeTheme.font.body,
+                lineHeight: 1.5,
               }}
             >
-              {item.description}
-            </p>
+              {item.description
+                .split("\n")
+                .filter((line) => line.trim() !== "")
+                .map((line, index) => (
+                  <li key={index}>{line}</li>
+                ))}
+            </ul>
           )}
 
-          <div
-            className="mt-2 flex flex-col gap-1"
-            style={{
-              fontSize: resumeTheme.font.small,
-            }}
-          >
-            {item.githubUrl && (
-              <span style={{ color: resumeTheme.colors.lightText }}>
-                GitHub: {item.githubUrl}
-              </span>
-            )}
+          {/* Links */}
 
-            {item.liveUrl && (
-              <span style={{ color: resumeTheme.colors.lightText }}>
-                Live: {item.liveUrl}
-              </span>
-            )}
-          </div>
+          {(item.githubUrl || item.liveUrl) && (
+            <div
+              className="mt-2 flex flex-wrap gap-4"
+              style={{
+                color: resumeTheme.colors.lightText,
+                fontSize: resumeTheme.font.small,
+              }}
+            >
+              {item.githubUrl && (
+                <span>
+                  <strong>GitHub:</strong>{" "}
+                  {formatUrl(item.githubUrl)}
+                </span>
+              )}
+
+              {item.liveUrl && (
+                <span>
+                  <strong>Live:</strong>{" "}
+                  {formatUrl(item.liveUrl)}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       ))}
     </section>

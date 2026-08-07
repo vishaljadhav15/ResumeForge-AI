@@ -2,9 +2,40 @@ import SectionHeading from "./components/SectionHeading";
 import { resumeTheme } from "../../constants/resumeTheme";
 
 function CertificatesPreview({ certificates }) {
-  if (certificates.length === 0) {
+  if (!certificates.length) {
     return null;
   }
+
+  const formatUrl = (url) => {
+    if (!url) return "";
+
+    return url
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "");
+  };
+
+  const formatDate = (date) => {
+    if (!date) return "";
+
+    const [year, month] = date.split("-");
+
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    return `${months[Number(month) - 1]} ${year}`;
+  };
 
   return (
     <section
@@ -12,7 +43,7 @@ function CertificatesPreview({ certificates }) {
         marginTop: resumeTheme.spacing.sectionGap,
       }}
     >
-      <SectionHeading>Certificates</SectionHeading>
+      <SectionHeading>Certifications</SectionHeading>
 
       {certificates.map((item) => (
         <div
@@ -21,37 +52,47 @@ function CertificatesPreview({ certificates }) {
             marginBottom: resumeTheme.spacing.itemGap,
           }}
         >
-          <div className="flex items-start justify-between">
-            <div>
+          <div className="flex items-start justify-between gap-4">
+
+            {/* Left */}
+
+            <div className="flex-1">
+
               <h4
                 className="font-bold"
                 style={{
                   color: resumeTheme.colors.heading,
-                  fontSize: "14px",
+                  fontSize: "13px",
                 }}
               >
                 {item.name}
               </h4>
 
               <p
+                className="font-medium"
                 style={{
-                  color: resumeTheme.colors.text,
+                  color: resumeTheme.colors.primary,
                   fontSize: resumeTheme.font.body,
                 }}
               >
                 {item.organization}
               </p>
+
             </div>
+
+            {/* Right */}
 
             <div
               className="text-right"
               style={{
                 color: resumeTheme.colors.lightText,
                 fontSize: resumeTheme.font.small,
+                minWidth: "90px",
               }}
             >
-              {item.issueDate}
+              {formatDate(item.issueDate)}
             </div>
+
           </div>
 
           {item.credentialId && (
@@ -62,21 +103,24 @@ function CertificatesPreview({ certificates }) {
                 fontSize: resumeTheme.font.small,
               }}
             >
-              Credential ID: {item.credentialId}
+              Credential ID:
+              <strong> {item.credentialId}</strong>
             </p>
           )}
 
           {item.credentialUrl && (
             <p
-              className="mt-1 break-all"
+              className="mt-1"
               style={{
                 color: resumeTheme.colors.primary,
                 fontSize: resumeTheme.font.small,
+                wordBreak: "break-word",
               }}
             >
-              {item.credentialUrl}
+              {formatUrl(item.credentialUrl)}
             </p>
           )}
+
         </div>
       ))}
     </section>

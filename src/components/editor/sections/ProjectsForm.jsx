@@ -7,7 +7,9 @@ import {
   SectionHeader,
 } from "../../common";
 
+import { useState } from "react";
 import { useResume } from "../../../context/ResumeContext";
+import { validateField } from "../../../utils/validateField";
 
 function ProjectsForm() {
   const {
@@ -17,8 +19,19 @@ function ProjectsForm() {
     deleteProject,
   } = useResume();
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (id, field, value) => {
     updateProject(id, field, value);
+  };
+
+  const handleBlur = (id, field, value) => {
+    const error = validateField(field, value);
+
+    setErrors((prev) => ({
+      ...prev,
+      [`${id}-${field}`]: error,
+    }));
   };
 
   return (
@@ -57,8 +70,10 @@ function ProjectsForm() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-5">
+
                       <Input
                         label="Project Title"
+                        required
                         placeholder="ResumeForge AI"
                         value={project.title}
                         onChange={(e) =>
@@ -67,6 +82,18 @@ function ProjectsForm() {
                             "title",
                             e.target.value
                           )
+                        }
+                        onBlur={(e) =>
+                          handleBlur(
+                            project.id,
+                            "title",
+                            e.target.value
+                          )
+                        }
+                        error={
+                          errors[
+                            `${project.id}-title`
+                          ]
                         }
                       />
 
@@ -82,8 +109,7 @@ function ProjectsForm() {
                           )
                         }
                       />
-
-                      <Input
+                                            <Input
                         label="GitHub Repository"
                         placeholder="https://github.com/username/project"
                         value={project.githubUrl}
@@ -93,6 +119,18 @@ function ProjectsForm() {
                             "githubUrl",
                             e.target.value
                           )
+                        }
+                        onBlur={(e) =>
+                          handleBlur(
+                            project.id,
+                            "githubUrl",
+                            e.target.value
+                          )
+                        }
+                        error={
+                          errors[
+                            `${project.id}-githubUrl`
+                          ]
                         }
                       />
 
@@ -107,11 +145,24 @@ function ProjectsForm() {
                             e.target.value
                           )
                         }
+                        onBlur={(e) =>
+                          handleBlur(
+                            project.id,
+                            "liveUrl",
+                            e.target.value
+                          )
+                        }
+                        error={
+                          errors[
+                            `${project.id}-liveUrl`
+                          ]
+                        }
                       />
 
                       <div>
                         <label className="mb-2 block text-sm font-medium text-gray-700">
                           Project Description
+                          <span className="ml-1 text-red-500">*</span>
                         </label>
 
                         <textarea
@@ -124,10 +175,36 @@ function ProjectsForm() {
                               e.target.value
                             )
                           }
+                          onBlur={(e) =>
+                            handleBlur(
+                              project.id,
+                              "description",
+                              e.target.value
+                            )
+                          }
                           placeholder="Describe your project..."
-                          className="w-full rounded-xl border border-gray-300 p-4 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                          className={`w-full rounded-xl border p-4 outline-none transition focus:ring-2 ${
+                            errors[
+                              `${project.id}-description`
+                            ]
+                              ? "border-red-500 focus:border-red-500 focus:ring-red-200"
+                              : "border-gray-300 focus:border-blue-500 focus:ring-blue-200"
+                          }`}
                         />
+
+                        {errors[
+                          `${project.id}-description`
+                        ] && (
+                          <p className="mt-2 text-sm text-red-500">
+                            {
+                              errors[
+                                `${project.id}-description`
+                              ]
+                            }
+                          </p>
+                        )}
                       </div>
+
                     </div>
                   </div>
                 </Card>

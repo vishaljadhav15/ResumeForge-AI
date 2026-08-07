@@ -2,7 +2,7 @@ import SectionHeading from "./components/SectionHeading";
 import { resumeTheme } from "../../constants/resumeTheme";
 
 function SkillsPreview({ skills }) {
-  if (skills.length === 0) {
+  if (!skills.length) {
     return null;
   }
 
@@ -14,16 +14,17 @@ function SkillsPreview({ skills }) {
     >
       <SectionHeading>Skills</SectionHeading>
 
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="mt-2 flex flex-wrap gap-2">
         {skills.map((skill) => (
           <span
             key={skill}
-            className="rounded-full border px-3 py-1"
+            className="rounded-md border px-2.5 py-1 font-medium"
             style={{
               borderColor: resumeTheme.colors.border,
               backgroundColor: "#F8FAFC",
-              color: resumeTheme.colors.text,
+              color: resumeTheme.colors.heading,
               fontSize: resumeTheme.font.small,
+              lineHeight: 1.2,
             }}
           >
             {skill}

@@ -1,16 +1,31 @@
-function SummaryPreview({ summary }) {
-  return (
-    <div className="mt-8">
-      <h3 className="mb-3 border-b border-slate-200 pb-2 text-sm font-bold uppercase tracking-wider text-blue-700">
-        Summary
-      </h3>
+import SectionHeading from "./components/SectionHeading";
+import { resumeTheme } from "../../constants/resumeTheme";
 
-      <p className="text-sm leading-7 text-slate-700 whitespace-pre-line">
-        {summary?.trim()
-          ? summary
-          : "Your professional summary will appear here."}
+function SummaryPreview({ summary }) {
+  if (!summary?.trim()) {
+    return null;
+  }
+
+  return (
+    <section
+      style={{
+        marginTop: resumeTheme.spacing.sectionGap,
+      }}
+    >
+      <SectionHeading>Professional Summary</SectionHeading>
+
+      <p
+        style={{
+          color: resumeTheme.colors.text,
+          fontSize: resumeTheme.font.body,
+          lineHeight: 1.6,
+          textAlign: "justify",
+          whiteSpace: "pre-line",
+        }}
+      >
+        {summary}
       </p>
-    </div>
+    </section>
   );
 }
 

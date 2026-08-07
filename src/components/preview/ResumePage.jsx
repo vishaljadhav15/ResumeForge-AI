@@ -12,7 +12,7 @@ function ResumePage() {
   const { resumeData } = useResume();
 
   return (
-    <div className="p-10">
+    <div className="min-h-[842px] bg-white p-8">
       <PreviewHeader resumeData={resumeData} />
 
       <SummaryPreview summary={resumeData.summary} />
