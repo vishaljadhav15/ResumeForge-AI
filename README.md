@@ -1,16 +1,33 @@
-# React + Vite
+## Testing
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ResumeForge AI was manually tested across the major user flows to ensure that the application works correctly and provides a consistent user experience.
 
-Currently, two official plugins are available:
+### Tested Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Personal information form input and validation
+- Professional summary input and character limit
+- Education add, update and delete functionality
+- Experience add, update and delete functionality
+- Projects add, update and delete functionality
+- Certificates add, update and delete functionality
+- Skills management
+- Required field validation
+- Email and phone number validation
+- URL validation for LinkedIn, Portfolio, GitHub and Live Demo
+- Start Year / End Year validation
+- Start Date / End Date validation
+- Real-time resume preview updates
+- Resume progress calculation
+- ATS-style resume completeness score
+- LocalStorage data persistence after page refresh
+- Responsive dashboard layout
+- Resume preview layout
+- Print / PDF export functionality
+- Production build using Vite
 
-## React Compiler
+### Build Verification
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The production build was verified using:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm run build
